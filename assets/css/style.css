@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(114, 113, 113);
+}
+
+#planet {
+    background: url(../../images/planet.svg) center no-repeat;
+    height: 20em;
+    width: 20em;
+    animation: rotate 20s linear infinite ;
+}
+
+#orbit{
+    width: 60%;
+    height: 100vh;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+}
+
+#orbit1{
+    top: 0;
+    left: 10em;
+    border-radius: 50%;
+}
+
+#moon{
+    background: url(../../images/ISS.svg);
+    height: 3em;
+    width: 3em;
+    animation: rotate 30s linear infinite;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }  
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-orbit {
+    0% {
+        transform: rotate(0deg) translateX(10em);
+    }  
+    100% {
+        transform: rotate(360deg) translateX(10em);
+    }
+}
