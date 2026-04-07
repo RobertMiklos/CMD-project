@@ -1,11 +1,51 @@
-#terminal form {
-    background-color: rgb(53, 53, 53);
-    width: 100%;
-    height: 100%;
-    color: white;
-}
-
 #terminal {
     width: 40%;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    box-sizing: border-box;
+}
+
+#outputShell{
+    width: calc(100% - 1em);
+    height: 70%;
+    background-color: rgb(29, 29, 29);    
+    flex-grow: 1;
+    overflow-y: auto;
+    box-sizing: border-box;
+    margin: 0.5em;
+    border-radius: 2em;
+    border: 0.3em solid #333;
+}
+
+form{
+    height: 8em;
+    background-color: rgb(29, 29, 29);
+    margin: 0.5em;
+    width: calc(100% - 1em);
+    color: white;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 2em;
+    border: 0.3em solid #333;
+}
+
+form h2{
+    margin: 0 0 0 1.2em;
+}
+
+form input{
+    width: calc(100% - 4em);
+    background: #111;
+    border: 1px solid #333;
+    color: white;
+    margin: 0.5em;
+    box-sizing: border-box;
+    height: 3em;
+    align-self: center;
+    border-radius: 1em;
+    padding: 0 0 0 1em;
 }
