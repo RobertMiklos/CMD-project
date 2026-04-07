@@ -1,11 +1,20 @@
 * {
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 body {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+#universe{
+    width: 60%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
     align-items: center;
     background-color: rgb(114, 113, 113);
 }
@@ -14,53 +23,39 @@ body {
     background: url(../../images/planet.svg) center no-repeat;
     height: 20em;
     width: 20em;
-    animation: rotate 20s linear infinite ;
+    animation: rotate 40s linear infinite ;
 }
 
-#orbit{
-    width: 60%;
-    height: 100vh;
-    
+.orbitPath{
+    position: absolute;
+    border: 0.1em dashed rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
     display: flex;
     justify-content: center;
-    align-items: center;
-
-    border-radius: 50%;
+    animation: rotate linear infinite;
 }
 
 #orbit1{
-    top: 0;
-    left: 10em;
-    border-radius: 50%;
+    animation-duration: 70s;
+    width: 25em;
+    height: 25em;
 }
 
-#moon{
+#orbit2{
+    animation-duration: 120s;
+    width: 50em;
+    height: 50em;
+}
+
+/* #satelite{
     background: url(../../images/ISS.svg);
-    height: 3em;
-    width: 3em;
-    animation: rotate 30s linear infinite;
-    border-radius: 50%;
-}
-
-
-
-
-
+    height: 3.5em;
+    width: 3.5em;
+} */
 
 @keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }  
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes rotate-orbit {
-    0% {
-        transform: rotate(0deg) translateX(10em);
-    }  
-    100% {
-        transform: rotate(360deg) translateX(10em);
-    }
+    from{
+        transform: rotate(0deg); } 
+    to {
+        transform: rotate(360deg); }
 }
