@@ -1,0 +1,12 @@
+{
+    "commands": [
+        {
+            "keyword": "help",
+            "usage": "help"
+        },
+        {
+            "keyword": "clear",
+            "usage": "clear"
+        }
+    ]
+}

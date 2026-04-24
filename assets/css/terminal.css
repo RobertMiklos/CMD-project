@@ -46,15 +46,38 @@ form h2{
     margin: 0 0 0 1.2em;
 }
 
-form input{
+.input-line {
+    display: flex;
+    align-items: center;
     width: calc(100% - 4em);
     background: #111;
     border: 1px solid #333;
-    color: white;
     margin: 0.5em;
     box-sizing: border-box;
     height: 3em;
     align-self: center;
     border-radius: 1em;
-    padding: 0 0 0 1em;
+    padding: 0 1em;
+}
+
+#prompt-text {
+    color: #4CAF50;
+    font-weight: bold;
+    white-space: nowrap;
+    margin-right: 0.5em;
+    font-family: monospace;
+    font-size: 1.1em;
+}
+
+#cli-input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    box-sizing: border-box;
+    height: 100%;
+    outline: none;
+    padding: 0;
+    font-family: monospace;
+    font-size: 1.1em;
 }

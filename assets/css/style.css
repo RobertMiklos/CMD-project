@@ -31,30 +31,41 @@ body {
     position: absolute;
     border: 0.1em dashed rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    animation: rotate linear infinite;
     overflow: visible;
 }
 
 #orbit1 {
-    animation-duration: 70s;
     width: 25em;
     height: 25em;
 }
 
 #orbit2 {
-    animation-duration: 120s;
     width: 50em;
     height: 50em;
 }
 
- #satelite{
+.object-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    animation: rotate linear infinite;
+    overflow: visible;
+}
+
+.object-positioner {
+    position: absolute;
+    overflow: visible;
+}
+
+.station {
     background: url(../../images/ISS.svg);
     height: 3.7em;
     width: 3.5em;
-    margin-top: 1em;
-} 
+    margin-left: -1.75em;
+    margin-top: -1.85em;
+}
 
 #orbitMoon {
     animation-duration: 10s;
@@ -63,14 +74,14 @@ body {
     align-items: flex-start;
 }
 
-#moon {
+.moon {
     width: 3em;
     height: 3em;
     background: radial-gradient(circle at 35% 35%, #e0e0e0, #5a5a5a);
     border-radius: 50%;
+    margin-left: -1.5em;
     margin-top: -1.5em;
     animation: counter-rotate 10s linear infinite;
-    display: none;
 }
 
 @keyframes rotate {
