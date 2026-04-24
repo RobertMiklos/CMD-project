@@ -4,8 +4,12 @@
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    background: linear-gradient(to bottom left, #111120, #151525);
+    border-right: 1px solid rgba(0, 255, 255, 0.082);
 
 }
+
+
 
 #outputShell {
     width: calc(100% - 1em);
@@ -22,7 +26,7 @@
 
 #outputShell p {
     margin: 0.5em 1em;
-    color: #00ffd5;
+    color: #a9daeb;
     box-sizing: border-box;
     background: linear-gradient(to right, #161616, #172727);
     border-radius: 2em;
@@ -54,7 +58,8 @@ form input {
     width: calc(100% - 4em);
     background: #111;
     border: 1px solid rgba(0, 255, 255, 0.2);
-    color: #00ffd5;
+    color: #a9daeb;
+}
 .input-line {
     display: flex;
     align-items: center;
@@ -70,31 +75,33 @@ form input {
     
 }
 
-form input:focus {
-    outline: none;
+.input-line:focus-within {
     border-color: #00ffff;
     box-shadow: 0 0 0.5em rgba(0, 255, 255, 0.3);
-    padding: 0 1em;
 }
 
 #prompt-text {
-    color: #4CAF50;
+    color: #add8e6;
     font-weight: bold;
     white-space: nowrap;
     margin-right: 0.5em;
     font-family: monospace;
     font-size: 1.1em;
+    outline: none;
+    flex-shrink: 0;
 }
 
 #cli-input {
     flex-grow: 1;
     background: transparent;
     border: none;
-    color: white;
+    color: #a9daeb;
     box-sizing: border-box;
     height: 100%;
     outline: none;
     padding: 0;
     font-family: monospace;
     font-size: 1.1em;
+    min-width: 0;
+    width: 100%;
 }

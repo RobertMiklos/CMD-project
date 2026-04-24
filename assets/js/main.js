@@ -15,7 +15,7 @@ const state = {
 };
 
 // Start with greeting
-printToConsole("Dostupné příkazy: help, clear, orbit1, orbit2", false);
+printToConsole("Dostupné příkazy: help, clear, exit, orbit1, orbit2", false);
 
 cliForm.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -32,7 +32,7 @@ cliForm.addEventListener("submit", function(event) {
 function printToConsole(text, isCommand = false) {
     const p = document.createElement("p");
     if (isCommand) {
-        p.innerHTML = `<span style="color: #4CAF50;">${getPromptString()}</span> ${text}`;
+        p.innerHTML = `<span style="color: #add8e6;">${getPromptString()}</span> ${text}`;
     } else {
         p.textContent = text;
         if (text.startsWith("Neznámý") || text.startsWith("Chyba:")) {
@@ -97,19 +97,21 @@ function getOrbitElement(name) {
 }
 
 // Redistribute all objects evenly around the orbit using animation-delay
+// Uses each object's stored speed value for its duration
 function redistributeObjects(orbitName) {
     const objects = state[orbitName].objects;
     const count = objects.length;
+    const baseDuration = orbitName === 'orbit1' ? 70 : 120;
 
     objects.forEach((obj, index) => {
         const wrapper = findObjectElement(obj.name);
         if (!wrapper) return;
 
-        // Each wrapper may have a different duration (speed)
-        const duration = parseFloat(wrapper.style.animationDuration) ||
-                         (orbitName === 'orbit1' ? 70 : 120);
+        // Use the object's stored speed (0.1 - 1.0)
+        const duration = baseDuration / obj.speed;
+        wrapper.style.animationDuration = `${duration}s`;
 
-        // Negative delay offsets starting position evenly
+        // Evenly space starting positions based on each object's own duration
         const delay = -(duration * index / count);
         wrapper.style.animationDelay = `${delay}s`;
     });
@@ -125,27 +127,20 @@ function processCommand(commandLine) {
         return;
     }
 
+    if (cmd === 'exit') {
+        currentPath = [];
+        updatePrompt();
+        outputShell.innerHTML = "";
+        printToConsole("Dostupné příkazy: help, clear, exit, orbit1, orbit2", false);
+        return;
+    }
+
     if (cmd === 'back') {
         if (currentPath.length > 0) {
             currentPath.pop();
             updatePrompt();
         } else {
             printToConsole("Již jste v kořenovém adresáři.");
-       
-        if (prikaz === "moonup") {
-            document.getElementById("moon").style.display = "block";
-            output.innerHTML += "<p>> Přidal jsi měsíc na oběžnou dráhu</p>";
-        } 
-        else if (prikaz === "moondelete") {
-            document.getElementById("moon").style.display = "none";
-            output.innerHTML += "<p>> Měsíc byl odstraněn z oběžné dráhy</p>";
-        } 
-        else if (prikaz === "bloodmoon") {
-            document.getElementById("moon").style.background = "radial-gradient(circle at 35% 35%, #ff0101ff, #3a3939ff)";
-            output.innerHTML += "<p>> krvavý měsíc</p>";
-        }
-        else {
-            output.innerHTML += "<p>> Neznámý příkaz: " + prikaz + "</p>";
         }
         return;
     }
@@ -154,7 +149,7 @@ function processCommand(commandLine) {
     if (currentPath.length === 0) {
         // In "world>"
         if (cmd === 'help') {
-            printToConsole("Dostupné příkazy: help, clear, orbit1, orbit2");
+            printToConsole("Dostupné příkazy: help, clear, exit, orbit1, orbit2");
         } else if (cmd === 'orbit1' || cmd === 'orbit2') {
             currentPath.push(cmd);
             updatePrompt();
@@ -167,7 +162,7 @@ function processCommand(commandLine) {
         
         if (cmd === 'help') {
             const objNames = state[currentOrbit].objects.map(o => `${o.name} (${o.type})`).join(", ");
-            printToConsole(`Dostupné příkazy: help, clear, add <typ> <název>, remove <název>, back`);
+            printToConsole(`Dostupné příkazy: help, clear, exit, add <typ> <název>, remove <název>, back`);
             printToConsole(`Dostupné typy: moon, station`);
             if (objNames) {
                 printToConsole(`Objekty na orbitě: ${objNames} (napište název pro výběr)`);
@@ -190,8 +185,9 @@ function processCommand(commandLine) {
                 return;
             }
 
-            // Add to current orbit state
-            state[currentOrbit].objects.push({ type: objType, name: customName });
+            // Add to current orbit state with random speed between 0.1 and 1.0
+            const randomSpeed = Math.round((Math.random() * 0.9 + 0.1) * 100) / 100;
+            state[currentOrbit].objects.push({ type: objType, name: customName, speed: randomSpeed });
 
             // Create and append DOM element
             const el = createObjectElement(objType, customName, currentOrbit);
@@ -245,7 +241,7 @@ function processCommand(commandLine) {
         }
 
         if (cmd === 'help') {
-            let cmds = `Dostupné příkazy: help, clear, speed <číslo>, back`;
+            let cmds = `Dostupné příkazy: help, clear, exit, speed <číslo>, back`;
             if (currentObj.type === 'moon') {
                 cmds += `, color <barva>`;
             }
@@ -257,15 +253,11 @@ function processCommand(commandLine) {
                 return;
             }
             
-            // Apply speed to this specific object's wrapper
-            const wrapper = findObjectElement(currentObjectName);
-            if (wrapper) {
-                const defaultDuration = currentOrbit === 'orbit1' ? 70 : 120;
-                const newDuration = defaultDuration / speedVal;
-                wrapper.style.animationDuration = `${newDuration}s`;
-                redistributeObjects(currentOrbit);
-                printToConsole(`Rychlost objektu '${currentObjectName}' nastavena na ${speedVal}x (${newDuration.toFixed(2)}s).`);
-            }
+            // Update stored speed and re-apply
+            currentObj.speed = speedVal;
+            redistributeObjects(currentOrbit);
+            const defaultDuration = currentOrbit === 'orbit1' ? 70 : 120;
+            printToConsole(`Rychlost objektu '${currentObjectName}' nastavena na ${speedVal}x (${(defaultDuration / speedVal).toFixed(2)}s).`);
         } else if (cmd === 'color' && currentObj.type === 'moon') {
             const colorVal = args[1];
             if (!colorVal) {
@@ -285,5 +277,3 @@ function processCommand(commandLine) {
         }
     }
 }
-});
-
