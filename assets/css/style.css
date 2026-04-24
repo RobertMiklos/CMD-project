@@ -8,6 +8,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #0a0a12;
 }
 
 #universe {
@@ -16,7 +17,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(114, 113, 113);
+    background: linear-gradient(to bottom right, #111120, #151525);
     overflow: visible;
 }
 
@@ -25,11 +26,12 @@ body {
     height: 20em;
     width: 20em;
     animation: rotate 40s linear infinite;
+    
 }
 
 .orbitPath {
     position: absolute;
-    border: 0.1em dashed rgba(255, 255, 255, 0.3);
+    border: 0.1em dashed rgba(0, 255, 255, 0.2);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -49,12 +51,12 @@ body {
     height: 50em;
 }
 
- #satelite{
+#satelite {
     background: url(../../images/ISS.svg);
     height: 3.7em;
     width: 3.5em;
     margin-top: 1em;
-} 
+}
 
 #orbitMoon {
     animation-duration: 10s;

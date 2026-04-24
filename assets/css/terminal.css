@@ -3,58 +3,69 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: black;
     box-sizing: border-box;
+
 }
 
-#outputShell{
+#outputShell {
     width: calc(100% - 1em);
     height: 70%;
-    background-color: rgb(29, 29, 29);    
+    background: linear-gradient(to bottom, #111111, #172727);
     flex-grow: 1;
     overflow-y: auto;
     box-sizing: border-box;
     margin: 0.5em;
     border-radius: 2em;
-    border: 0.3em solid #333;
+    border: 2px solid rgba(0, 255, 255, 0.15);
     
 }
-#outputShell p{
+
+#outputShell p {
     margin: 0.5em 1em;
-    color: rgb(255, 255, 255);
+    color: #00ffd5;
     box-sizing: border-box;
-    background-color: rgb(66, 64, 64);
+    background: linear-gradient(to right, #161616, #172727);
     border-radius: 2em;
     padding: 0.5em 1em;
 }
 
-form{
+form {
     height: 8em;
-    background-color: rgb(29, 29, 29);
+    background: linear-gradient(to bottom, #111111, #172727);
     margin: 0.5em;
     width: calc(100% - 1em);
-    color: rgb(235, 235, 235);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     border-radius: 2em;
-    border: 0.3em solid #333;
+    border: 2px solid rgba(0, 255, 255, 0.15);
+    
 }
 
-form h2{
-    margin: 0 0 0 1.2em;
+form h2 {
+    margin: 0 0 0 1.4em;
+    color: #00ffff;
+    letter-spacing: 0.1em;
+    
 }
 
-form input{
+form input {
     width: calc(100% - 4em);
     background: #111;
-    border: 1px solid #333;
-    color: white;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    color: #00ffd5;
     margin: 0.5em;
     box-sizing: border-box;
     height: 3em;
     align-self: center;
     border-radius: 1em;
     padding: 0 0 0 1em;
+    
+}
+
+form input:focus {
+    outline: none;
+    border-color: #00ffff;
+    box-shadow: 0 0 0.5em rgba(0, 255, 255, 0.3);
 }
