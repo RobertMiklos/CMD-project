@@ -50,7 +50,6 @@ body {
     animation: zhasinani 4s infinite alternate; 
 }
 
-
 #universe::after {
     box-shadow: 
         30vw 5vh white,
@@ -170,4 +169,55 @@ body {
     to {
         transform: rotate(-360deg);
     }
+}
+
+.object-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    animation: counter-rotate linear infinite;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 30;
+    overflow: visible;
+}
+
+body.show-names .object-label {
+    visibility: visible;
+    opacity: 1;
+}
+
+.label-line {
+    position: absolute;
+    left: 1.68em;
+    bottom: 1.41em;
+    width: 2.5em;
+    height: 2px;
+    background: #0ff;
+    box-shadow: 0 0 5px #0ff;
+    transform: rotate(-40deg);
+    transform-origin: left bottom;
+    overflow: visible;
+}
+
+.label-text {
+    position: absolute;
+    left: 3.6em;
+    bottom: 3.01em;
+    color: #0ff;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.85em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 4px #0ff;
+    border: 1px solid #0ff;
+    background: rgba(0, 15, 30, 0.75);
+    padding: 0.3em 0.6em;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.4), inset 0 0 5px rgba(0, 255, 255, 0.2);
+    white-space: nowrap;
+    backdrop-filter: blur(2px);
+    overflow: visible;
 }

@@ -61,7 +61,14 @@ function createObjectElement(type, customName, orbitName) {
     positioner.classList.add('object-positioner');
     const inner = document.createElement('div');
     inner.classList.add(type);
+    
+    const label = document.createElement('div');
+    label.classList.add('object-label');
+    label.style.animationDuration = `${defaultDuration}s`;
+    label.innerHTML = `<div class="label-line"></div><div class="label-text">${customName}</div>`;
+    
     positioner.appendChild(inner);
+    positioner.appendChild(label);
     wrapper.appendChild(positioner);
     return wrapper;
 }
@@ -91,8 +98,17 @@ function redistributeObjects(orbitName) {
         if (!wrapper) return;
         const duration = baseDuration / obj.speed;
         wrapper.style.animationDuration = `${duration}s`;
+        
+        const label = wrapper.querySelector('.object-label');
+        if (label) {
+            label.style.animationDuration = `${duration}s`;
+        }
+        
         const delay = -(duration * index / count);
         wrapper.style.animationDelay = `${delay}s`;
+        if (label) {
+            label.style.animationDelay = `${delay}s`;
+        }
     });
 }
 
@@ -121,6 +137,12 @@ function processCommand(commandLine) {
         }
         return;
     }
+    if (cmd === 'names') {
+        document.body.classList.toggle('show-names');
+        const isOn = document.body.classList.contains('show-names');
+        printToConsole(`Zobrazování jmen (ukazatelů): ${isOn ? 'ZAPNUTO' : 'VYPNUTO'}.`);
+        return;
+    }
 
     const depth = currentPath.length;
     if (depth === 0) handleRootCommand(cmd);
@@ -130,7 +152,7 @@ function processCommand(commandLine) {
 
 function handleRootCommand(cmd) {
     if (cmd === 'help') {
-        printToConsole("Dostupné příkazy: help, clear, exit, orbit1, orbit2");
+        printToConsole("Dostupné příkazy: help, clear, exit, names, orbit1, orbit2");
     } else if (cmd === 'orbit1' || cmd === 'orbit2') {
         currentPath.push(cmd);
         updatePrompt();
@@ -142,7 +164,7 @@ function handleRootCommand(cmd) {
 function handleOrbitCommand(cmd, args, currentOrbit) {
     if (cmd === 'help') {
         const objNames = state[currentOrbit].objects.map(o => `${o.name} (${o.type})`).join(", ");
-        printToConsole(`Dostupné příkazy: help, clear, exit, add <typ> <název>, remove <název>, back`);
+        printToConsole(`Dostupné příkazy: help, clear, exit, names, add <typ> <název>, remove <název>, back`);
         printToConsole(`Dostupné typy: moon, station`);
         if (objNames) printToConsole(`Objekty na orbitě: ${objNames} (napište název pro výběr)`);
         return;
@@ -201,7 +223,7 @@ function handleObjectCommand(cmd, args, currentOrbit, currentObjectName) {
     if (!currentObj) return printError("Objekt již neexistuje. Použijte 'back'.");
 
     if (cmd === 'help') {
-        let cmds = `Dostupné příkazy: help, clear, exit, speed <číslo>, back`;
+        let cmds = `Dostupné příkazy: help, clear, exit, names, speed <číslo>, back`;
         if (currentObj.type === 'moon') cmds += `, color <barva>`;
         printToConsole(cmds);
         return;
