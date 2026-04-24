@@ -19,14 +19,72 @@ body {
     align-items: center;
     background: linear-gradient(to bottom right, #111120, #151525);
     overflow: visible;
+    position: relative; 
+}
+
+
+#universe::before, #universe::after {
+    content: ""; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    border-radius: 50%;
+    pointer-events: none; 
+}
+
+
+#universe::before {
+    
+    box-shadow: 
+        10vw 15vh white,
+        35vw 8vh rgba(208, 255, 0, 0.836),
+        25vw 55vh rgba(255, 255, 255, 0.6),
+        45vw 35vh rgba(255, 238, 0, 0.808),
+        35vw 75vh rgba(0, 255, 255, 0.5),
+        15vw 85vh white,
+        50vw 80vh rgba(255, 255, 255, 0.8),
+        5vw 60vh rgba(0, 255, 255, 0.9);
+    animation: zhasinani 4s infinite alternate; 
+}
+
+
+#universe::after {
+    box-shadow: 
+        30vw 5vh white,
+        20vw 40vh rgba(0, 255, 255, 0.6),
+        48vw 60vh white,
+        8vw 35vh rgba(255, 255, 255, 0.5),
+        28vw 90vh rgba(0, 255, 255, 0.9),
+        55vw 15vh white,
+        18vw 20vh rgba(255,255,255,0.7);
+    animation: zhasinani 2.3s infinite alternate;
+    animation-delay: 1.5s; 
+}
+
+
+@keyframes zhasinani {
+    0% { opacity: 0.1; } 
+    100% { opacity: 1; }
 }
 
 #planet {
     background: url(../../images/planet.svg) center no-repeat;
-    height: 20em;
-    width: 20em;
+    background-size: 100%;
+    height: 12em;
+    width: 12em;
     animation: rotate 40s linear infinite;
-    
+    position: relative; 
+    z-index: 10;
+    transition: width 0.3s, height 0.3s;
+    cursor: pointer;
+}
+
+#planet:hover {
+    width: 15em;
+    height: 15em;
 }
 
 .orbitPath {
@@ -34,6 +92,7 @@ body {
     border: 0.1em dashed rgba(0, 255, 255, 0.2);
     border-radius: 50%;
     overflow: visible;
+    z-index: 5; 
 }
 
 #orbit1 {
@@ -51,6 +110,8 @@ body {
     height: 3.7em;
     width: 3.5em;
     margin-top: 1em;
+}
+
 .object-wrapper {
     position: absolute;
     top: 50%;

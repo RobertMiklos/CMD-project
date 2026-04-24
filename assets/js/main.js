@@ -32,7 +32,7 @@ cliForm.addEventListener("submit", function(event) {
 function printToConsole(text, isCommand = false) {
     const p = document.createElement("p");
     if (isCommand) {
-        p.innerHTML = `<span style="color: #4CAF50;">${getPromptString()}</span> ${text}`;
+        p.innerHTML = `<span style="color: #add8e6;">${getPromptString()}</span> ${text}`;
     } else {
         p.textContent = text;
         if (text.startsWith("Neznámý") || text.startsWith("Chyba:")) {
@@ -285,5 +285,5 @@ function processCommand(commandLine) {
         }
     }
 }
-});
+};
 
