@@ -42,4 +42,6 @@ CSS
 Markdown  
 Json
 
+### Obrázky:
+
 ![Příkad1](image.png)
