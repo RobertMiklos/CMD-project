@@ -94,12 +94,12 @@ body {
     z-index: 5; 
 }
 
-#orbit1 {
+#closeOrbit {
     width: 25em;
     height: 25em;
 }
 
-#orbit2 {
+#farOrbit {
     width: 50em;
     height: 50em;
 }

@@ -5,8 +5,8 @@ const cliForm = document.getElementById("cli-form");
 let currentPath = [];
 const availableTypes = ['moon', 'station'];
 const state = {
-    orbit1: { objects: [] },
-    orbit2: { objects: [] }
+    closeOrbit: { objects: [] },
+    farOrbit: { objects: [] }
 };
 
 processCommand("help");
@@ -55,7 +55,7 @@ function createObjectElement(type, customName, orbitName) {
     wrapper.classList.add('object-wrapper');
     wrapper.dataset.objectName = customName;
     wrapper.dataset.objectType = type;
-    const defaultDuration = orbitName === 'orbit1' ? 70 : 120;
+    const defaultDuration = orbitName === 'closeOrbit' ? 70 : 120;
     wrapper.style.animationDuration = `${defaultDuration}s`;
     const positioner = document.createElement('div');
     positioner.classList.add('object-positioner');
@@ -92,23 +92,30 @@ function getOrbitElement(name) {
 function redistributeObjects(orbitName) {
     const objects = state[orbitName].objects;
     const count = objects.length;
-    const baseDuration = orbitName === 'orbit1' ? 70 : 120;
+    const baseDuration = orbitName === 'closeOrbit' ? 70 : 120;
     objects.forEach((obj, index) => {
         const wrapper = findObjectElement(obj.name);
         if (!wrapper) return;
-        const duration = baseDuration / obj.speed;
-        wrapper.style.animationDuration = `${duration}s`;
+        
+        wrapper.style.animationDuration = `${baseDuration}s`;
         
         const label = wrapper.querySelector('.object-label');
         if (label) {
-            label.style.animationDuration = `${duration}s`;
+            label.style.animationDuration = `${baseDuration}s`;
         }
         
-        const delay = -(duration * index / count);
+        const delay = -(baseDuration * index / count);
         wrapper.style.animationDelay = `${delay}s`;
         if (label) {
             label.style.animationDelay = `${delay}s`;
         }
+
+        requestAnimationFrame(() => {
+            wrapper.getAnimations().forEach(anim => anim.playbackRate = obj.speed);
+            if (label) {
+                label.getAnimations().forEach(anim => anim.playbackRate = obj.speed);
+            }
+        });
     });
 }
 
@@ -133,14 +140,14 @@ function processCommand(commandLine) {
             currentPath.pop();
             updatePrompt();
         } else {
-            printToConsole("Již jste v kořenovém adresáři.");
+            printToConsole("Již jste v kořenovém adresáři");
         }
         return;
     }
     if (cmd === 'names') {
         document.body.classList.toggle('show-names');
         const isOn = document.body.classList.contains('show-names');
-        printToConsole(`Zobrazování jmen (ukazatelů): ${isOn ? 'ZAPNUTO' : 'VYPNUTO'}.`);
+        printToConsole(`Zobrazování jmen (ukazatelů): ${isOn ? 'ZAPNUTO' : 'VYPNUTO'}`);
         return;
     }
 
@@ -152,9 +159,9 @@ function processCommand(commandLine) {
 
 function handleRootCommand(cmd) {
     if (cmd === 'help') {
-        printToConsole("Dostupné příkazy: help, clear, exit, names, orbit1, orbit2");
-    } else if (cmd === 'orbit1' || cmd === 'orbit2') {
-        currentPath.push(cmd);
+        printToConsole("Dostupné příkazy: help, clear, exit, names, closeOrbit, farOrbit");
+    } else if (cmd === 'closeorbit' || cmd === 'farorbit') {
+        currentPath.push(cmd === 'closeorbit' ? 'closeOrbit' : 'farOrbit');
         updatePrompt();
     } else {
         printToConsole(`Neznámý příkaz: ${cmd}`);
@@ -173,8 +180,8 @@ function handleOrbitCommand(cmd, args, currentOrbit) {
     if (cmd === 'add') {
         const [, objType, customName] = args;
         if (!objType || !customName) return printError("Použití: add <typ> <název>  (např. add moon Luna1)");
-        if (!availableTypes.includes(objType)) return printError(`Neznámý typ '${objType}'. Dostupné: moon, station.`);
-        if (findObjectInState(customName)) return printError(`Objekt s názvem '${customName}' již existuje.`);
+        if (!availableTypes.includes(objType)) return printError(`Neznámý typ ${objType}. Dostupné: moon, station`);
+        if (findObjectInState(customName)) return printError(`Objekt s názvem ${customName} již existuje`);
 
         const speed = Math.round((Math.random() * 0.9 + 0.1) * 100) / 100;
         state[currentOrbit].objects.push({ type: objType, name: customName, speed });
@@ -186,14 +193,14 @@ function handleOrbitCommand(cmd, args, currentOrbit) {
             const radius = orbitEl.offsetWidth / 2;
             el.querySelector('.object-positioner').style.transform = `translateY(-${radius}px)`;
             redistributeObjects(currentOrbit);
-            printToConsole(`Objekt '${customName}' (typ: ${objType}) přidán na ${currentOrbit}.`);
+            printToConsole(`Objekt ${customName} (typ: ${objType}) přidán na ${currentOrbit}`);
         }
         return;
     }
     
     if (cmd === 'remove') {
         const customName = args[1];
-        if (!customName) return printError("Zadejte název objektu k odstranění.");
+        if (!customName) return printError("Zadejte název objektu k odstranění");
         
         const objects = state[currentOrbit].objects;
         const objIndex = objects.findIndex(o => o.name.toLowerCase() === customName.toLowerCase());
@@ -202,9 +209,9 @@ function handleOrbitCommand(cmd, args, currentOrbit) {
             objects.splice(objIndex, 1);
             findObjectElement(customName)?.remove();
             redistributeObjects(currentOrbit);
-            printToConsole(`Objekt '${customName}' odstraněn.`);
+            printToConsole(`Objekt ${customName} odstraněn`);
         } else {
-            printError(`Objekt '${customName}' nebyl na této orbitě nalezen.`);
+            printError(`Objekt ${customName} nebyl na této orbitě nalezen`);
         }
         return;
     }
@@ -220,7 +227,7 @@ function handleOrbitCommand(cmd, args, currentOrbit) {
 
 function handleObjectCommand(cmd, args, currentOrbit, currentObjectName) {
     const currentObj = state[currentOrbit].objects.find(o => o.name === currentObjectName);
-    if (!currentObj) return printError("Objekt již neexistuje. Použijte 'back'.");
+    if (!currentObj) return printError("Objekt již neexistuje, použijte back");
 
     if (cmd === 'help') {
         let cmds = `Dostupné příkazy: help, clear, exit, names, speed <číslo>, back`;
@@ -231,23 +238,32 @@ function handleObjectCommand(cmd, args, currentOrbit, currentObjectName) {
     
     if (cmd === 'speed') {
         const speedVal = parseFloat(args[1]);
-        if (isNaN(speedVal) || speedVal <= 0) return printError("Zadejte platné číslo větší než 0 pro rychlost.");
+        if (isNaN(speedVal) || speedVal <= 0) return printError("Zadejte platné číslo větší než 0 pro rychlost");
         
         currentObj.speed = speedVal;
-        redistributeObjects(currentOrbit);
-        const defaultDuration = currentOrbit === 'orbit1' ? 70 : 120;
-        printToConsole(`Rychlost objektu '${currentObjectName}' nastavena na ${speedVal}x (${(defaultDuration / speedVal).toFixed(2)}s).`);
+        
+        const wrapper = findObjectElement(currentObjectName);
+        if (wrapper) {
+            wrapper.getAnimations().forEach(anim => anim.playbackRate = speedVal);
+            const label = wrapper.querySelector('.object-label');
+            if (label) {
+                label.getAnimations().forEach(anim => anim.playbackRate = speedVal);
+            }
+        }
+        
+        const defaultDuration = currentOrbit === 'closeOrbit' ? 70 : 120;
+        printToConsole(`Rychlost objektu ${currentObjectName} nastavena na ${speedVal}x (${(defaultDuration / speedVal).toFixed(2)}s)`);
         return;
     }
     
     if (cmd === 'color' && currentObj.type === 'moon') {
         const colorVal = args[1];
-        if (!colorVal) return printError("Zadejte barvu (např. red, blue, #ff0000).");
+        if (!colorVal) return printError("Zadejte barvu (např. red, blue, #ff0000)");
         
         const inner = findObjectElement(currentObjectName)?.querySelector('.moon');
         if (inner) {
             inner.style.background = `radial-gradient(circle at 35% 35%, ${colorVal}, #5a5a5a)`;
-            printToConsole(`Barva objektu '${currentObjectName}' byla změněna na '${colorVal}'.`);
+            printToConsole(`Barva objektu ${currentObjectName} byla změněna na ${colorVal}`);
         }
         return;
     }
@@ -295,7 +311,7 @@ function checkCollisions() {
                             removeObjectQuietly(orbitName, obj2.name);
                             collidingPairs.delete(pairId);
                             
-                            printToConsole(`POZOR: Objekty '${obj1.name}' a '${obj2.name}' se srazily a zničily!`);
+                            printToConsole(`POZOR: Objekty ${obj1.name} a ${obj2.name} se srazily a zničily!`);
                             
                             i--;
                             break;

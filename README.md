@@ -5,45 +5,70 @@
 ### Žáci: *Nicolas Doktor, Robert Mikloš*
 
 ## Ukázkový scénář použití:
-> help
+> worlds> help
 
-_Konzole ti vypíše možnosti komandů_
+_Konzole ti vypíše možnosti příkazů_
 
-> orbit1
+> clear, exit, names, closeOrbit, farOrbit
+
+_Vybereš si třeba **closeOrbit**_
+
+_Změní se ti prefix a přepneš se do subkonzole pro close orbit_
+
+> world/closeOrbit>
 >
-> orbit2
+> world/closeOrbit> add moon kozak
 
+_Do konzole se vypíše co se stalo_
 
+> Objekt kozak (typ: moon) přidán na closeOrbit
 
-_Vybereš si třeba **orbit1**_
+_Použiješ příkaz **names**, abys viděl jména objektů_
 
-_Konzole se ti přepne do světa orbit1_
-- napiš help pro zobrazení komandů
+> world/closeOrbit> names
 
+_Dále se přepneš do toho konkrétního objektu_
 
-_Konzole ti vypíše možnosti komandů_
+> world/closeOrbit> kozak
 
-> add moon (Jméno) = objeví se měsíc
+_Nastavíš mu barvu a rychlost_
+
+> world/closeOrbit/kozak > color blue
 >
-> remove (Jmeno) = zmizí měsíc
->
-> add station (jméno)= objeví se satelit
->
-> remove (Jméno) = zmizí satelit
->
-> names - ukáže ti jména objektů
+> world/closeOrbit/kozak > speed 3
 
 
-_Pokuď jsi uvnitř orbit1 nebo orbit2 a napíšeš (Jméno) objektu přepneš se v konzoli na př:World>Orbit1>Měsíc1_
-- napiš help pro zobrazení komandů
+" Říká se, že když jeden objekt na dráze zrychlíte a měl by se střetnout s dalším objektem, tak zázračně projdou. Ale v dávných mýtech se také říkalo, že je tu i šance, 1 ku 5 že neprojdou. Co se ale stane, nikdo neví. "
 
-> speed 5
->
->color orange
->
+---
+## Seznam příkazů
+> world> help
 
---- 
+> world> clear
 
+> world> exit
+
+> world> names
+
+> world> closeOrbit
+
+> world> farOrbit
+
+> !
+
+> world/closeOrbit> add ( typ ) ( jméno )
+
+> world/closeOrbit> remove ( jméno )
+
+> world/closeOrbit> back
+
+> !
+
+> world/closeOrbit/kozak> speed ( hodnota )
+
+> world/closeOrbit/kozak> color ( barva )
+
+---
 ## Funkční požadavky:
 textová konzole (CLI),  
 příkazy zadávané uživatelem,  
@@ -57,12 +82,13 @@ Javascript
 HTML  
 CSS  
 Markdown  
-Json
 
 ### Obrázky:
+Dřívější verze
+![Dřívější verze](/images/SCR/image.png)
 
-![Příklad0](image-4.png)
+Nejnovější verze
+![Nejnovější verze](/images/SCR/stock.png)
 
-![Příklad2](image-2.png)
-
-![Příklad3](image-3.png)
+Ukázkový scénář
+![Ukázkový scénář](/images/SCR/priklad.png)
