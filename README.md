@@ -75,7 +75,7 @@ příkazy zadávané uživatelem,
 textová odezva systému,  
 minimálně jeden řízený objekt,  
 možnost dotazovat se na stav objektu,  
-možnost měnit stav objektu  
+možnost měnit stav objektu 
 
 ## Technologie:
 Javascript  
